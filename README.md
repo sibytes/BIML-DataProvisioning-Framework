@@ -48,7 +48,7 @@ Note that SSIS is not yet support in Visual Studio 2017 and therefore it's advis
 
 ## How Does it Work
 
-![alt text](http://github.com/semanticinsight/BIML-DataProvisioning-Framework/blob/master/Framework%20Stage.png)
+![alt text](https://github.com/semanticinsight/BIML-DataProvisioning-Framework/blob/master/Framework%20Stage.png)
 
 ## Getting Started
 

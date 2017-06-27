@@ -32,3 +32,5 @@ This project has 2 visual studio solutions each having 2 projects.
   
 
 Note that SSIS is not yet support in Visual Studio 2017 and therefore it's advised to work with teh BIML solition in Visual Studio 2015.
+
+## Getting Started

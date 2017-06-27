@@ -1,6 +1,19 @@
 # BIML-DataProvisioning-Framework
 
-Automated development framework to create data provisioning platforms using BIML and T4 Templates for Code Creation.
+Automated development framework to automatically create data provisioning platforms using BIML Express and T4 Templates for development time Code Creation.
+
+It has it's own repository database that is designed to be an extension of SSISDB. Rather than double up features that SSIS already has (e.g. enviornment configuration) and create confusion for administrators and developers it extends SSISDB providing further logging capabilities, metadata management and development framework solution configuration.
+
+Currently this project only holds assets to create a basic staging layer. I'm currently working on the DW layer and adding further metadata management, ETL and ELT features. It comes setup with a workable example using Adventure Works which can be downloaded and installed seperately.
+
+You will require at minimum:
+* Visual Studio 2015
+* SQL Server 2014 (inc SSIS)
+* SQL Server Data Tools for Visual Studio
+* BIML Express for Visual Studio
+
+It works with SQL Server 2016 also just change the deployment target in the database and SSIS projects.
+
 
 ## What's in this project
 
@@ -33,4 +46,10 @@ This project has 2 visual studio solutions each having 2 projects.
 
 Note that SSIS is not yet support in Visual Studio 2017 and therefore it's advised to work with teh BIML solition in Visual Studio 2015.
 
+## How Does it Work
+
+To do
+
 ## Getting Started
+
+To do

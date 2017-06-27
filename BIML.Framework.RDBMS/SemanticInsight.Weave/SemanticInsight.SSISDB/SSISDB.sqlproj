@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>SSISDB</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{42ff750a-bf8e-4385-b142-8db4c73eaffb}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql120DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>SSISDB</RootNamespace>
+    <AssemblyName>SSISDB</AssemblyName>
+    <ModelCollation>1033, CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="semanticinsight\" />
+    <Folder Include="semanticinsight\Tables\" />
+    <Folder Include="semanticinsight\Stored Procedures\" />
+    <Folder Include="Security\" />
+    <Folder Include="Scripts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="semanticinsight\Tables\data_object.sql" />
+    <Build Include="semanticinsight\Tables\load_pattern.sql" />
+    <Build Include="semanticinsight\Tables\data_type.sql" />
+    <Build Include="semanticinsight\Tables\data_attribute.sql" />
+    <Build Include="semanticinsight\Tables\data_object_type.sql" />
+    <Build Include="semanticinsight\Tables\process.sql" />
+    <Build Include="semanticinsight\Tables\system_component.sql" />
+    <Build Include="semanticinsight\Tables\system_framework_attribute.sql" />
+    <Build Include="semanticinsight\Tables\system_framework.sql" />
+    <Build Include="semanticinsight\Tables\load_pattern_attribute.sql" />
+    <Build Include="semanticinsight\Stored Procedures\configure_system_component.sql" />
+    <Build Include="semanticinsight\Stored Procedures\finalise_process.sql" />
+    <Build Include="semanticinsight\Stored Procedures\initialise_process.sql" />
+    <Build Include="Security\semanticinsight.sql" />
+    <PostDeploy Include="Scripts\Script.PreDeployment.sql" />
+    <Build Include="semanticinsight\Tables\data_schema.sql" />
+    <Build Include="semanticinsight\Tables\data_schema_mapping.sql" />
+    <Build Include="semanticinsight\Stored Procedures\truncate_metadata.sql" />
+    <Build Include="semanticinsight\Stored Procedures\get_table_definition_biml.sql" />
+    <Build Include="semanticinsight\Tables\data_attribute_mapping.sql" />
+    <Build Include="semanticinsight\Stored Procedures\has_default_attribute_conversion.sql" />
+    <Build Include="semanticinsight\Stored Procedures\get_default_attribute_conversions.sql" />
+    <Build Include="semanticinsight\Stored Procedures\map_data_attributes.sql" />
+    <Build Include="semanticinsight\Tables\data_object_mapping.sql" />
+    <Build Include="semanticinsight\Stored Procedures\delete_process.sql" />
+    <Build Include="semanticinsight\Tables\process_data_object_stats.sql" />
+    <Build Include="semanticinsight\Stored Procedures\get_data_object_mapping_id.sql" />
+    <Build Include="semanticinsight\Stored Procedures\insert_process_data_object_stats.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Scripts\ReferenceData.sql" />
+    <None Include="Scripts\Script.DeleteReferenceData.sql" />
+    <None Include="Scripts\Script.DropDatabaseObjects.sql" />
+  </ItemGroup>
+</Project>

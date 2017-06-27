@@ -1,0 +1,16 @@
+<#@ template language="C#" #>
+<#@ assembly name="C:\\Code\\Shaun.Ryan\\sibytes\\SemanticInsight.RapidBI\\SemanticInsight.Weave\\SemanticInsight.Weave\\bin\\Debug\\SemanticInsight.Weave.dll" #>
+<#@ import namespace="SemanticInsight.Weave" #>
+
+<Biml xmlns="http://schemas.varigence.com/biml.xsd">
+
+	<#  
+	    string rootComponentApplicationName = "Adventure Works BI"; 
+		string connectionName ="Stage"; 
+		string databaseName ="Stage";
+		BimlScript bs = new BimlScript();
+		string tableBiml = bs.GetTableDefinitionBiml(rootComponentApplicationName, connectionName, databaseName, false);
+	#>
+
+	<#=tableBiml#>
+</Biml>

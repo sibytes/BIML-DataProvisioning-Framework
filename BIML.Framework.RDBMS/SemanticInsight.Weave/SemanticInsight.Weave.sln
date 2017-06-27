@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SemanticInsight.Weave", "SemanticInsight.Weave\SemanticInsight.Weave.csproj", "{FFE9CF4D-F6EC-4756-B833-4A58EBC45CC2}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "SSISDB", "SemanticInsight.SSISDB\SSISDB.sqlproj", "{42FF750A-BF8E-4385-B142-8DB4C73EAFFB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FFE9CF4D-F6EC-4756-B833-4A58EBC45CC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFE9CF4D-F6EC-4756-B833-4A58EBC45CC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FFE9CF4D-F6EC-4756-B833-4A58EBC45CC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FFE9CF4D-F6EC-4756-B833-4A58EBC45CC2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42FF750A-BF8E-4385-B142-8DB4C73EAFFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42FF750A-BF8E-4385-B142-8DB4C73EAFFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42FF750A-BF8E-4385-B142-8DB4C73EAFFB}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{42FF750A-BF8E-4385-B142-8DB4C73EAFFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42FF750A-BF8E-4385-B142-8DB4C73EAFFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42FF750A-BF8E-4385-B142-8DB4C73EAFFB}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

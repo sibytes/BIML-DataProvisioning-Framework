@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "BIML ETL", "BIML ETL\BIML ETL.dtproj", "{D0240FA5-CF1C-4A69-AA01-C3FBFBFB34F7}"
+EndProject
+Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "BIML Utility", "BIML Utility\BIML Utility.dtproj", "{57D26E3B-FDE3-48E0-8467-F478CEA1FB67}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Development|Default = Development|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D0240FA5-CF1C-4A69-AA01-C3FBFBFB34F7}.Development|Default.ActiveCfg = Development
+		{D0240FA5-CF1C-4A69-AA01-C3FBFBFB34F7}.Development|Default.Build.0 = Development
+		{57D26E3B-FDE3-48E0-8467-F478CEA1FB67}.Development|Default.ActiveCfg = Development
+		{57D26E3B-FDE3-48E0-8467-F478CEA1FB67}.Development|Default.Build.0 = Development
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 3
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://sibytes.visualstudio.com/
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = BIML\u0020ETL\\BIML\u0020ETL.dtproj
+		SccProjectName1 = BIML\u0020ETL
+		SccLocalPath1 = BIML\u0020ETL
+		SccProjectUniqueName2 = BIML\u0020Utility\\BIML\u0020Utility.dtproj
+		SccProjectName2 = BIML\u0020Utility
+		SccLocalPath2 = BIML\u0020Utility
+	EndGlobalSection
+EndGlobal

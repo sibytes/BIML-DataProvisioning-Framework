@@ -14,7 +14,7 @@ You will require at minimum:
 
 All these development tools can be accessed for free under the right circumstances (see individual licenses). See [Dev Essentials](https://www.visualstudio.com/dev-essentials/) for Visual Studio Community and SQL Server Developer Editions that includes SQL Server and SSIS. [BIML Express](https://www.varigence.com/BimlExpress) is the free Visual Studio plugin from Varigence.
 
-It works with SQL Server 2016 also just change the deployment target in the database and SSIS projects. Note that SSIS is not yet support in Visual Studio 2017 and therefore it's advised to work with teh BIML solition in Visual Studio 2015. The other projects however can be worked in Visual Studio 2017.
+It works with SQL Server 2016 also just change the deployment target in the database and SSIS projects. Note that SSIS is not yet support in Visual Studio 2017 and therefore it's advised to work with the BIML solution in Visual Studio 2015. The other projects however can be worked in Visual Studio 2017.
 
 
 ## What's in this project

@@ -6,7 +6,8 @@ Automated development framework to create data provisioning platforms using BIML
 
 This project has 2 visual studio solutions each having 2 projects.
 
-1. [**SemanticInsight.Weave**]http://github.com/semanticinsight/BIML-DataProvisioning-Framework/tree/master/BIML.Framework.RDBMS/SSIS 
+1. **SemanticInsight.Weave**
+   http://github.com/semanticinsight/BIML-DataProvisioning-Framework/tree/master/BIML.Framework.RDBMS/SSIS 
     
   * SemanticInsight.SSISDB (SQL Server database project)
   

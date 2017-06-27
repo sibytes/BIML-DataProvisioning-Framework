@@ -12,7 +12,7 @@ You will require at minimum:
 * SQL Server Data Tools for Visual Studio
 * BIML Express for Visual Studio
 
-It works with SQL Server 2016 also just change the deployment target in the database and SSIS projects.
+It works with SQL Server 2016 also just change the deployment target in the database and SSIS projects. Note that SSIS is not yet support in Visual Studio 2017 and therefore it's advised to work with teh BIML solition in Visual Studio 2015. The other projects however can be worked in Visual Studio 2017.
 
 
 ## What's in this project
@@ -42,9 +42,6 @@ This project has 2 visual studio solutions each having 2 projects.
   * BIML Utility (SSIS Project)
     
     This SSIS project creates working development utility packages that bulk scrape metadata into the metadata repository, create tables and delete tables
-  
-
-Note that SSIS is not yet support in Visual Studio 2017 and therefore it's advised to work with teh BIML solition in Visual Studio 2015.
 
 ## How Does it Work
 

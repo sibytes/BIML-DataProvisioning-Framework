@@ -24,11 +24,11 @@ This project has 2 visual studio solutions each having 2 projects.
 
   * BIML ETL (SSIS project)
   
-    This SSIS project creates the operational packages that will be deployed with re-usable emebedded framework extensions for logging, row     stats, data lineage all tied to the meta data repository and mappings.
+    This SSIS project creates the operational packages that will be deployed with re-usable emebedded framework extensions for logging, row stats, data lineage all tied to the meta data repository and mappings.
   
   * BIML Utility (SSIS Project)
     
-    This SSIS project creates working development utility packages that bulk scrape metadata into the metadata repository, create tables       and delete tables
+    This SSIS project creates working development utility packages that bulk scrape metadata into the metadata repository, create tables and delete tables
   
 
 Note that SSIS is not yet support in Visual Studio 2017 and therefore it's advised to work with teh BIML solition in Visual Studio 2015.

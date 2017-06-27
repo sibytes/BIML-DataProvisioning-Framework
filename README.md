@@ -19,7 +19,7 @@ It works with SQL Server 2016 also just change the deployment target in the data
 
 ## What's in this project
 
-This project has 2 visual studio solutions each having 2 projects.
+This repo has 2 visual studio solutions each having 2 projects.
 
 1. **SemanticInsight.Weave**
    

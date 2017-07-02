@@ -51,4 +51,4 @@ This repo has 2 visual studio solutions each having 2 projects.
 
 ## Getting Started
 
-To do
+https://semanticinsight.wordpress.com/2017/06/28/adp-framework-getting-started/

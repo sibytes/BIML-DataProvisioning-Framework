@@ -52,3 +52,8 @@ This repo has 2 visual studio solutions each having 2 projects.
 ## Getting Started
 
 https://semanticinsight.wordpress.com/2017/06/28/adp-framework-getting-started/
+
+## More Docs
+
+Configuring System Components and Schema Object mappings.
+https://semanticinsight.wordpress.com/2017/07/04/adp-framework-schema-object-mapping/

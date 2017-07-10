@@ -10,7 +10,7 @@ You will require at minimum:
 * Visual Studio 2015
 * SQL Server 2014 (inc SSIS)
 * SQL Server Data Tools for Visual Studio
-* BIML Express for Visual Studio
+* BIML Express 2017 for Visual Studio
 
 All these development tools can be accessed for free under the right circumstances (see individual licenses). See [Dev Essentials](https://www.visualstudio.com/dev-essentials/) for Visual Studio Community and SQL Server Developer Editions that includes SQL Server and SSIS. [BIML Express](https://www.varigence.com/BimlExpress) is the free Visual Studio plugin from Varigence.
 

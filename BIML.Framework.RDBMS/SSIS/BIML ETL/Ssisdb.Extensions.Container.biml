@@ -1,0 +1,45 @@
+<#@ property name="section" type="String"#>
+<#@ property name="containerName" type="String"#>
+
+
+
+
+<# if (section=="containerVariables")
+{
+#>
+    <!-- container variables -->
+    <Variable Name="ssis_row_count" Namespace="SSISDB" DataType="Int64">0</Variable>
+    <Variable Name="fire_container_event" Namespace="SSISDB" DataType="Boolean">false</Variable>
+    <!--
+      This is the object id that this package is loading. It's retrieved and logged into the SSISDB extensions semanticinsight.process for the 
+      following package events OnPreExecute, OnPostExecute and OnError. It's also piped into the target object so that the target objects can be joined into the data lineage.
+    -->
+    <Variable Name="data_object_mapping_id" Namespace="SSISDB" DataType="Int64" EvaluateAsExpression="false">0</Variable>
+<#}#>
+
+<# if (section=="containerEvents")
+{
+#>
+    <!-- container events -->
+    <Event Name="OnPostExecute" EventType="OnPostExecute" ConstraintMode="Parallel" >
+        <Tasks>
+            <Expression Name="Fire Event" Expression="@[SSISDB::fire_container_event] =  @[System::SourceName] ==  &quot;<#=containerName#>&quot;">
+            </Expression>
+            <ExecuteSQL Name="Record Stats" ConnectionName="SSISDB" ResultSet="None">
+                <DirectInput>
+                    EXEC [semanticinsight].[insert_process_data_object_stats] @@process_id = ?, @@data_object_mapping_id = ?, @@ssis_row_count = ?
+                </DirectInput>
+                <Parameters>
+                    <Parameter Name="@@process_id" DataType="Int32" VariableName="SSISDB.process_id"></Parameter>
+                    <Parameter Name="@@data_object_mapping_id" DataType="Int32" VariableName="SSISDB.data_object_mapping_id"></Parameter>
+                    <Parameter Name="@@ssis_row_count" DataType="Int32" VariableName="SSISDB.ssis_row_count"></Parameter>
+                </Parameters>
+                <PrecedenceConstraints>
+                    <Inputs>
+                        <Input OutputPathName="Fire Event.Output" EvaluationOperation="ExpressionAndConstraint" EvaluationValue="Success" Expression="@[SSISDB::fire_container_event]"></Input>
+    					</Inputs>
+    			</PrecedenceConstraints>
+            </ExecuteSQL>
+		</Tasks>
+	</Event>
+<#}#>

@@ -1,4 +1,3 @@
-<#@ template language="C#" #>
 <#@ assembly name="C:\\Code\\Shaun.Ryan\\sibytes\\SemanticInsight.RapidBI\\SemanticInsight.Weave\\SemanticInsight.Weave\\bin\\Debug\\SemanticInsight.Weave.dll" #>
 <#@ import namespace="SemanticInsight.Weave" #>
 

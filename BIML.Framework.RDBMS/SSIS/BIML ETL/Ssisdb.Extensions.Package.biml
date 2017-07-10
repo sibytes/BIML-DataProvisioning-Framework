@@ -1,0 +1,203 @@
+<#@ property name="section" type="String"#>
+
+<# if (section=="parameters")
+{
+#>
+    <!-- parameters -->
+      <!--
+        Parent process id is the data lineage process id passed in by the parent calling package.
+        This is so we can record a hierarchical package process log in SSISDB extensions for data lineage and integrated warehouse
+        package execution logging, audit and system health. Detailed information is avaiable in SSISDB and our SSISDB extensions
+        bridge a small gap between SSISDB and data warehouse lineage, system health and system auditing.
+      -->
+    <Parameter Name="parent_process_id" DataType="Int64" IsRequired="true" IsSensitive="false">0</Parameter>
+<#}#>
+
+<# if (section=="packageVariables")
+{
+#>
+    <!-- 
+      fire event is used to restrict the firing of package OnPreExecute event to the package executable only.
+      Another way to control this is to set the internal Propagate variable to false on all the package child executables 
+      however this is pretty hidden and default is true for all child executables, hence does bode well for a robust framework.
+    -->
+    <Variable Name="fire_event" Namespace="SSISDB" DataType="Boolean" >False</Variable>
+    <!--
+      This is the process id of the calling package if there is one. This is so the calling hierarchy of executions can be recroded in the
+      SSISDB extensions semanticinsight.process
+    -->
+    <Variable Name="parent_process_id" Namespace="SSISDB" DataType="Int64" EvaluateAsExpression="true">@[$Package::parent_process_id]</Variable>
+    <!--
+      This is the process id of this package. It's retrieved and logged into the SSISDB extensions semanticinsight.process for the 
+      following package events OnPreExecute, OnPostExecute and OnError
+    -->
+    <Variable Name="process_id" Namespace="SSISDB" DataType="Int64" EvaluateAsExpression="false">0</Variable>
+    <!--
+      This is the object id that this package is loading. It's retrieved and logged into the SSISDB extensions semanticinsight.process for the 
+      following package events OnPreExecute, OnPostExecute and OnError. It's also piped into the target object so that the target objects can be joined into the data lineage.
+      
+     <Variable Name="data_object_mapping_id" Namespace="SSISDB" DataType="Int64" EvaluateAsExpression="false">0</Variable>
+    -->
+    
+    <!--
+      Records the start date time of the package in SSISDB extensions. Rather than use getdate() the framework passes througuh the start_date
+      to record into the SSISDB extensions semanticinsight.process to ensure it matches the actual start dates in SSISDB. Note that these start
+      date and package end dates will be logged by SSISDB when deployed to the server. They are logged into semanticinsight.process at a package
+      level for convenience and to collect the package level runtimes when executed in development which is useful.
+     -->
+     <Variable Name="start_date" Namespace="SSISDB" DataType="DateTime" EvaluateAsExpression="true">@[System::StartTime]</Variable>
+    
+     <!--
+      Used to store any messages that need to be passed back to the SSISDB exntension semanticinsight.process logging when the package
+      execution is finanlised on the OnPostExecute event handler. This is required because System::ErrorDescription is only 
+     -->
+     <Variable Name="message" Namespace="SSISDB" DataType="String"></Variable>
+    
+    
+     <!--
+      capture system variables that are useful as processing logging information logging
+     -->
+    <Variable Name="user_name" Namespace="SSISDB" DataType="String" EvaluateAsExpression="true">@[System::UserName]</Variable>
+    <Variable Name="machine_name" Namespace="SSISDB" DataType="String" EvaluateAsExpression="true">@[System::MachineName]</Variable>
+    <Variable Name="package_id" Namespace="SSISDB" DataType="String" EvaluateAsExpression="true">@[System::PackageID]</Variable>
+    <Variable Name="execution_id" Namespace="SSISDB" DataType="String" EvaluateAsExpression="true">@[System::ServerExecutionID]</Variable>
+    <Variable Name="version_number" Namespace="SSISDB" DataType="String" EvaluateAsExpression="true">(DT_WSTR, 10)@[System::VersionMajor] + "." + (DT_WSTR, 10)@[System::VersionMinor] + "." + (DT_WSTR, 10)@[System::VersionBuild]</Variable>
+    <Variable Name="version_comments" Namespace="SSISDB" DataType="String" EvaluateAsExpression="true">@[System::VersionComments]</Variable>
+<#}#>
+
+<# if (section=="packageEvents")
+{
+#>
+    <!-- 
+      OnPreExecute - this event logs the start of the execution in the SSIDB extensions table semanticinsight.process.
+      This table records the hierarchical execution of the packages for the ease of convenience for basic health check reporting.
+      It also issues an id for data lineage recording in the warehouse tables. 
+                
+      OnPostExecute - this event logs the end of the package execution in the SSISDB extensions table semanticinsight.process.
+      This table recrods the hierarchical execution of the packages for the of convenience for basic health check reporting.
+      It also issues an id for data lineage recording in the warehouse tables. 
+                
+      OnError - This event picks up the error description from System.ErrorDescription to log into the package hierarchical execution log 
+      semanticinsight.process. 
+                
+      Fire Event - Expression Task
+      The fire_event expression task and variable ensure that OnPreExecute and OnPostExecute only actually execute for the package executable
+      since the events handler will call from child executables where Propagate is set to True. Unfortunately True is the default and the setting
+      is quite burried therefore it safer and more robust to handle this way.
+     -->
+    
+    <!-- Set up the events that log into our SSISDB extensions -->
+    
+    <!--
+      OnPreExecute :
+        Initiliase the process in the semanticinsight.process. 
+        Use parallel since we need to put an expression in the workflow 
+    -->
+    <Event Name="OnPreExecute" EventType="OnPreExecute" ConstraintMode="Parallel" >
+    
+      <Tasks>
+    
+        <!-- Ensure this event only fires the package executable event -->
+    
+        <Expression Name="Fire Event" Expression="@[SSISDB::fire_event] =  @[System::SourceName] ==  @[System::PackageName]"></Expression>
+    
+        <!--
+          call the stored proc to initialise the process in semanticinsight.process in SSISDB
+          It returns the process_id into the package so that
+            a) It can be used to close the process on the package event OnPostExecute
+            b) It can be logged into the data flow target tables to provide data lineage and linkage to processing audit and performance tables in SSISDB
+            c) It can be passed to child packages into their parent_process_id for hierarchical logging of package execution in SSDB extentions semanticinsight.process
+        -->
+    
+        <ExecuteSQL Name="Initialise Process" ConnectionName="SSISDB" ResultSet="SingleRow">
+          <DirectInput>
+    
+    EXEC [semanticinsight].[initialise_process] 
+    	@@parent_process_id = ?,
+    	@@component_application_name = ?,
+    	@@start_date = ?,
+    
+    	@@user_name = ?,
+    	@@machine_name = ?,
+    	@@package_id = ?,
+    	@@execution_id = ?,
+    	@@version_number = ?,
+    	@@version_comments = ?
+    
+    
+    	</DirectInput>
+          <Parameters>
+            <Parameter Name="@@parent_process_id" DataType="Int64" VariableName="SSISDB.parent_process_id"></Parameter>
+    		<Parameter Name="@@component_application_name" DataType="AnsiString" VariableName="SSISDB.component_application_name"></Parameter>
+            <Parameter Name="@@start_date" DataType="DateTime" VariableName="SSISDB.start_date"></Parameter>
+    		<Parameter Name="@@user_name" DataType="AnsiString" VariableName="SSISDB.user_name"></Parameter>
+    		<Parameter Name="@@machine_name" DataType="AnsiString" VariableName="SSISDB.machine_name"></Parameter>
+    	    <Parameter Name="@@package_id" DataType="Guid" VariableName="SSISDB.package_id"></Parameter>
+    		<Parameter Name="@@execution_id" DataType="Int64" VariableName="SSISDB.execution_id"></Parameter>
+    		<Parameter Name="@@version_number" DataType="AnsiString" VariableName="SSISDB.version_number"></Parameter>
+    		<Parameter Name="@@version_comments" DataType="AnsiString" VariableName="SSISDB.version_comments"></Parameter>
+          </Parameters>
+          <Results>
+            <Result Name="process_id" VariableName="SSISDB.process_id"></Result>
+          </Results>
+          <!-- precedence constraint ensures that proc only fires on the package event hendler -->
+          <PrecedenceConstraints>
+            <Inputs>
+              <Input OutputPathName="Fire Event.Output" EvaluationOperation="ExpressionAndConstraint" EvaluationValue="Success" Expression="@[SSISDB::fire_event]"></Input>
+            </Inputs>
+          </PrecedenceConstraints>
+        </ExecuteSQL>
+    
+      </Tasks>
+    </Event>
+    
+    <!-- 
+      OnError :
+        Retrieve the error message into a package scoped variable so that we can close off the package process exection in SSISDB extensions
+        semanticinsight.process. Unfortunately ErrorDescription is scoped to the OnError event handler only. Whislt detailed logging is available
+        in SSISDB native semanticinsight.process provides an intuitive quick and easy way to tie a the main process failure into the system health
+        and warehouse data lineage. It's also available when executed in SSDT which is also very useful.
+    -->
+    <Event Name="OnError" EventType="OnError" ConstraintMode="Linear" >
+      <Tasks>
+        <Expression Name ="Retrieve Error Message" Expression ="@[SSISDB::message] = @[System::ErrorDescription]"></Expression>
+      </Tasks>
+    </Event>
+    
+    <!--
+      OnPreExecute :
+        Initiliase the process in the semanticinsight.process. 
+        Use parallel since we need to put an expression in the workflow 
+    -->
+    <Event Name="OnPostExecute" EventType="OnPostExecute" ConstraintMode="Parallel" >
+    
+      <Tasks>
+    
+        <Expression Name="Fire Event" Expression="@[SSISDB::fire_event] =  @[System::SourceName] ==  @[System::PackageName]">
+        </Expression>
+    
+        <ExecuteSQL Name="Finalise Process" ConnectionName="SSISDB" ResultSet="None">
+    
+          <DirectInput>
+    		  
+    EXEC [semanticinsight].[finalise_process] @@process_id = ?, @@error_message = ?
+    
+    	  </DirectInput>
+    
+          <Parameters>
+            <Parameter Name="@@process_id" DataType="Int32" VariableName="SSISDB.process_id"></Parameter>
+            <Parameter Name="@@error_message" DataType="String" VariableName="SSISDB.message"></Parameter>
+          </Parameters>
+    
+          <PrecedenceConstraints>
+            <Inputs>
+              <Input OutputPathName="Fire Event.Output" EvaluationOperation="ExpressionAndConstraint" EvaluationValue="Success" Expression="@[SSISDB::fire_event]"></Input>
+            </Inputs>
+          </PrecedenceConstraints>
+    
+        </ExecuteSQL>
+    
+      </Tasks>
+    
+    </Event>
+<#}#>

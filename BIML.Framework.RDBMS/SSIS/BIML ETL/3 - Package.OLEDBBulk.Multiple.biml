@@ -1,8 +1,8 @@
-<#@ template language="C#" #>
 <#@ assembly name="C:\\Code\\Shaun.Ryan\\sibytes\\SemanticInsight.RapidBI\\SemanticInsight.Weave\\SemanticInsight.Weave\\bin\\Debug\\SemanticInsight.Weave.dll" #>
 <#@ import namespace="SemanticInsight.Weave" #>
 <Biml xmlns="http://schemas.varigence.com/biml.xsd">
-
+        <#=CallBimlScript("ProjectConnections.biml")#>
+        
 		<# 
 			BimlScript bs = new BimlScript();
 			string rootComponentApplicationName = "Adventure Works BI";
@@ -36,7 +36,7 @@
     <Package Name="OLEDB Bulk Stage <#=containerName#>" ConstraintMode="Parallel">
 
       <Parameters>
-        <#@ include file="Ssisdb.Extensions.Parameters.inc" #>
+        <#=CallBimlScript("Ssisdb.Extensions.Package.biml", "parameters")#>
       </Parameters>
 
       <Variables>
@@ -44,11 +44,11 @@
 		 The is that component application name for the specific BIML Pattern
 		-->
 		<Variable Name="component_application_name" Namespace="SSISDB" DataType="String"><#=destinationComponentApplicationName#></Variable>
-        <#@ include file="Ssisdb.Extensions.PackageVariables.inc" #>
+        <#=CallBimlScript("Ssisdb.Extensions.Package.biml", "packageVariables")#>
       </Variables>
 
       <Events>
-        <#@ include file="Ssisdb.Extensions.PackageEvents.inc" #>
+        <#=CallBimlScript("Ssisdb.Extensions.Package.biml", "packageEvents")#>
       </Events>
 
       <Tasks>
@@ -56,11 +56,11 @@
 		<Container Name="<#=containerName#>" ConstraintMode="Linear">
 
 			<Variables>
-				<#@ include file="Ssisdb.Extensions.ContainerVariables.inc" #>
+				<#=CallBimlScript("Ssisdb.Extensions.Container.biml", "containerVariables", "")#>
 			</Variables>
 
 			<Events>
-				<#@ include file="Ssisdb.Extensions.ContainerEvents.inc" #>
+				<#=CallBimlScript("Ssisdb.Extensions.Container.biml", "containerEvents", containerName)#>
 			</Events>
 
 			<Tasks>

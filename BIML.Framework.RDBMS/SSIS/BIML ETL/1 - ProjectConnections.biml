@@ -1,6 +1,4 @@
-
 <Biml xmlns="http://schemas.varigence.com/biml.xsd">
-
     <Connections>
     
         <Connection Name="Adventure Works" 

@@ -68,8 +68,8 @@
       <FullPath>3 - DropTable.biml</FullPath>
     </ProjectItem>
     <ProjectItem>
-      <Name>Global.biml</Name>
-      <FullPath>Global.biml</FullPath>
+      <Name>0 - Global.biml</Name>
+      <FullPath>0 - Global.biml</FullPath>
     </ProjectItem>
   </Miscellaneous>
   <Configurations>

@@ -1,9 +1,6 @@
 <#@ property name="section" type="String"#>
 <#@ property name="containerName" type="String"#>
 
-
-
-
 <# if (section=="containerVariables")
 {
 #>

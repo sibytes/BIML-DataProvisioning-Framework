@@ -1,4 +1,3 @@
-<#@ import namespace="SemanticInsight.Weave" #>
 <Biml xmlns="http://schemas.varigence.com/biml.xsd">
 
 	

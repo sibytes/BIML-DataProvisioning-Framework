@@ -1,0 +1,12 @@
+<Biml xmlns="http://schemas.varigence.com/biml.xsd">
+    <#=CallBimlScript("ProjectConnections.biml")#>
+	<#  
+	    string rootComponentApplicationName = "Adventure Works BI"; 
+		string connectionName ="Stage"; 
+		string databaseName ="Stage";
+		BimlScript bs = new BimlScript();
+		string tableBiml = bs.GetTableDefinitionBiml(rootComponentApplicationName, connectionName, databaseName, false);
+	#>
+
+	<#=tableBiml#>
+</Biml>

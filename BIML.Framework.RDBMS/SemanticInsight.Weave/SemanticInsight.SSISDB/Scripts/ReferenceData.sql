@@ -56,7 +56,9 @@ VALUES
 (29,	'xml'				,NULL																			,'DT_WSTR'					,'Xml'					),
 (30,	'geography'			,'convert(varbinary(max), <data_attribute_name>) as <data_attribute_name>'		,'DT_BYTES'					,'Binary'				),
 (31,	'geometry'			,'convert(varbinary(max), <data_attribute_name>) as <data_attribute_name>'		,'DT_BYTES'					,'Binary'				),
-(32,	'hierarchyid'		,'convert(varbinary(892), <data_attribute_name>) as <data_attribute_name>'		,'DT_BYTES'					,'Binary'				)
+(32,	'hierarchyid'		,'convert(varbinary(892), <data_attribute_name>) as <data_attribute_name>'		,'DT_BYTES'					,'Binary'				),
+(33,	'timestamp'			,'convert(varbinary(8), <data_attribute_name>) as <data_attribute_name>'		,'DT_BYTES'					,'Binary'				),
+(34,	'rowversion'		,'convert(varbinary(8), <data_attribute_name>) as <data_attribute_name>'		,'DT_BYTES'					,'Binary'				)
 SET IDENTITY_INSERT [semanticinsight].[data_type] OFF;
 
 SET IDENTITY_INSERT [semanticinsight].[load_pattern] ON

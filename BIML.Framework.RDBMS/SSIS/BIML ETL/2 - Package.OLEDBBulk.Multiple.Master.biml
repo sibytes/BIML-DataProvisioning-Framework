@@ -1,0 +1,67 @@
+<Biml xmlns="http://schemas.varigence.com/biml.xsd">
+    
+	<# 
+		string rootComponentApplicationName = "Adventure Works BI";
+		string sourceComponentApplicationName = "Adventure Works";
+		string destinationComponentApplicationName = "Adventure Works Stage";
+		
+		bool debug = false;
+		int pkgcnt = 0;
+		int maxpkgcnt = 2;
+	#>
+		
+
+	<Packages>
+		
+		<Package Name="Master <#=destinationComponentApplicationName#>"  ConstraintMode="Parallel">
+			<Parameters>
+                <#=CallBimlScript("Ssisdb.Extensions.Package.biml", "parameters")#>
+			</Parameters>
+
+			<Variables>
+				<#=CallBimlScript("Ssisdb.Extensions.Package.biml", "packageVariables")#>
+				<Variable Name="component_application_name" Namespace="SSISDB" DataType="String"><#=destinationComponentApplicationName#></Variable>
+			</Variables>
+
+			<Events>
+				<#=CallBimlScript("Ssisdb.Extensions.Package.biml", "packageEvents")#>
+			</Events>
+			<Tasks>
+
+				<# foreach(var table in RootNode.Tables) {#>
+
+				<#
+					string destinationDataSchemaName = table.Schema.ToString(); 
+					string destinationDataObjectName = table.Name.ToString();
+					string containerName = "Load " + destinationDataSchemaName + " " + destinationDataObjectName;
+				#>
+
+
+					<ExecutePackage Name="<#=containerName#>" >
+						<ExternalProjectPackage Package="OLEDB Bulk Stage <#=containerName#>.dtsx"></ExternalProjectPackage>
+						<ParameterBindings>
+							<ParameterBinding VariableName="SSISDB.process_id" Name="parent_process_id"></ParameterBinding>
+						</ParameterBindings>
+					</ExecutePackage>
+				    
+        		<# 
+            		pkgcnt++;
+            		if (debug && pkgcnt==maxpkgcnt){break;}
+            		    
+            		}
+        		#>
+
+			</Tasks>
+              <Connections>
+                    <# 
+                        string[] cn = new string[] {"SSISDB"};
+                        var connections = RootNode.Connections.Where(x => cn.Contains(x.Name));
+                    #>
+                    <# foreach(var connection in connections) {#>
+                    <Connection ConnectionName="<#=connection.Name#>" Id="<#=connection.GetTag("GUID")#>"></Connection>
+                    <#}#>
+              </Connections>
+		</Package>
+
+	</Packages>
+</Biml>

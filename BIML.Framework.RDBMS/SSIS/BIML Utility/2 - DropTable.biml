@@ -1,0 +1,22 @@
+<Biml xmlns="http://schemas.varigence.com/biml.xsd">
+    
+    <Packages>
+        <Package Name="DropTables_<#= RootNode.Tables[0].Connection.Name #>" ConstraintMode="Linear">
+            <Tasks>
+                <# foreach(var table in RootNode.Tables) {#>   
+                <ExecuteSQL Name="Create <#=table.Name#>" ConnectionName="<#=table.Connection.Name#>">
+                    <DirectInput>					
+IF (EXISTS (SELECT * 
+	FROM INFORMATION_SCHEMA.TABLES 
+	WHERE TABLE_SCHEMA = '<#=table.Schema#>' 
+	AND  TABLE_NAME = '<#=table.Name#>'))
+BEGIN
+	DROP TABLE [<#=table.Schema#>].[<#=table.Name#>]
+END
+                    </DirectInput>
+                </ExecuteSQL>
+                <# } #>
+            </Tasks>
+        </Package>
+    </Packages>
+</Biml>
